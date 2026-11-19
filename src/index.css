@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream font-sans text-choco antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    @apply bg-strawberry text-white;
+  }
+
+  /* Highly visible keyboard focus ring, hidden for mouse clicks */
+  :focus-visible {
+    outline: 3px solid #FF4F8B;
+    outline-offset: 3px;
+    border-radius: 12px;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reusable component classes                                         */
+/* ------------------------------------------------------------------ */
+@layer components {
+  /* Page width container with responsive gutters */
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .section {
+    @apply relative py-20 sm:py-24 lg:py-28;
+  }
+
+  /* Frosted-glass surface */
+  .glass {
+    @apply border border-white/60 bg-white/55 backdrop-blur-xl;
+  }
+
+  .glass-dark {
+    @apply border border-white/10 bg-white/5 backdrop-blur-xl;
+  }
+
+  /* Candy gradient text */
+  .text-gradient {
+    background-image: linear-gradient(100deg, #FF4F8B 0%, #FF8A5B 45%, #FFC93C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full bg-strawberry/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-strawberry-700;
+  }
+
+  /* Floating-label form fields */
+  .field {
+    @apply relative;
+  }
+  .field-input {
+    /* NOTE: add the `peer` class in JSX — Tailwind cannot @apply it */
+    @apply block w-full rounded-2xl border-2 border-choco/10 bg-white/80 px-4 pb-2.5 pt-6 text-base text-choco outline-none transition placeholder:text-transparent focus:border-strawberry focus:bg-white;
+    min-height: 3.5rem;
+  }
+  .field-label {
+    @apply pointer-events-none absolute left-4 top-4 origin-left text-base text-choco/60 transition-all duration-200
+      peer-focus:top-2 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-strawberry-700
+      peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:font-semibold;
+  }
+  .field-error .field-input {
+    @apply border-strawberry-600 bg-strawberry-50;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .perspective {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Lenis smooth scroll                                                */
+/* ------------------------------------------------------------------ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Swiper theme                                                       */
+/* ------------------------------------------------------------------ */
+.loved-swiper {
+  padding-bottom: 3.5rem !important;
+  overflow: visible !important;
+}
+.loved-swiper .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #3b1f1a;
+  opacity: 0.2;
+  transition: all 0.3s ease;
+}
+.loved-swiper .swiper-pagination-bullet-active {
+  width: 28px;
+  border-radius: 999px;
+  background: #ff4f8b;
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Shine sweep (achievement cards)                                    */
+/* ------------------------------------------------------------------ */
+.shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.shine::after {
+  content: '';
+  position: absolute;
+  inset: -20% auto -20% 0;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  transform: translateX(-160%) skewX(-20deg);
+  pointer-events: none;
+  z-index: 2;
+}
+.shine:hover::after,
+.shine:focus-within::after {
+  animation: shine 0.9s ease-out;
+}
+@keyframes shine {
+  from { transform: translateX(-160%) skewX(-20deg); }
+  to { transform: translateX(320%) skewX(-20deg); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reduced motion: switch off CSS animations site-wide                 */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
